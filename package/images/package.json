@@ -1,0 +1,65 @@
+{
+  "name": "images",
+  "version": "3.0.0",
+  "description": "Cross-platform image decoder(png/jpeg/gif) and encoder(png/jpeg) for Node.js",
+  "main": "index.js",
+  "bindingsCDN": "https://raw.githubusercontent.com/zhangyuanwei/node-images/master/bindings/",
+  "bindingMap": {
+    "0.8.0": [
+      "0.8.0",
+      "0.8.25"
+    ],
+    "0.9.11": [
+      "0.10.0",
+      "0.10.99"
+    ],
+    "0.12.0": [
+      "0.12.0",
+      "0.12.99"
+    ],
+    "4.0.0": [
+      "4.0.0",
+      "4.99.99"
+    ],
+    "5.0.0": [
+      "5.0.0",
+      "5.99.99"
+    ],
+    "6.0.0": [
+      "6.0.0",
+      "6.99.99"
+    ]
+  },
+  "scripts": {
+    "test": "node test.js",
+    "install": "echo \"Hello, World.\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhangyuanwei/node-images.git"
+  },
+  "keywords": [
+    "image",
+    "decoder",
+    "encoder",
+    "png",
+    "jpeg",
+    "gif",
+    "cross-platform",
+    "images"
+  ],
+  "author": "ZhangYuanwei <zhangyuanwei1988@gmail.com>",
+  "license": "MIT",
+  "gypfile": true,
+  "bugs": {
+    "url": "https://github.com/zhangyuanwei/node-images/issues"
+  },
+  "devDependencies": {
+    "step": "0.0.5"
+  },
+  "dependencies": {
+    "nan": "^2.3.2"
+  },
+  "_from": "images@3.0.0",
+  "_resolved": "http://registry.npm.taobao.org/images/download/images-3.0.0.tgz"
+}

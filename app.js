@@ -1,44 +1,35 @@
 'use strict';
 
-var ENV = 'DEV';
-const images = require('images');
+// 初始化环境
+const Fs = require('fs');
+const Path = require('path');
+const Images = require('./package/images');
+var Promise = require('bluebird');
+Promise.promisifyAll(Fs);
 
-var Promise = require("bluebird");
-Promise.promisifyAll(require("fs"));
-Promise.promisifyAll(require("child_process"));
+// 导入配置
+var configs = require('./config.json');
 
-var fs = require("fs");
-var path = require('path');
-
-var _config = {
-  width: 750,
-  height: 1206,
-  row: 4,
-  col: 8,
-  result: 'result.png',
-  path: 'F:\\demo\\sprite\\a1\\'
+for (var i = 0; i < configs.length; i++) {
+  go(configs[i]);
 }
 
-go(_config);
-
-function processDir1(dir) {
+function processDir(dir) {
   return new Promise(function(resolve) {
     var imagesData = {
       count: 0,
       files: [],
       dir: dir
     };
-    fs.readdirAsync(dir)
+    Fs.readdirAsync(dir)
       .map(function(file) {
-        fs.statAsync(dir + '/' + file)
+        Fs.statAsync(dir + '/' + file)
           .then(function(stat) {
             if (stat.isDirectory()) {
 
             } else {
               imagesData.files[imagesData.count] = file
               imagesData.count++;
-              // console.log(file);
-              // console.log('22222222222')
               resolve(imagesData);
             }
           })
@@ -49,12 +40,18 @@ function processDir1(dir) {
 }
 
 function go(_config) {
+  _config.path = Path.normalize(Path.resolve(_config.path) + '/');
+
+  console.log('');
+  console.log('***** config *****');
+  console.log(_config);
+  console.log('');
   //读取文件存储数组
   var imagesName = [];
   //获取当前目录绝对路径，这里resolve()不传入参数
   var filePath = _config.path; //path.resolve();
   //读取文件目录
-  fs.readdir(filePath, function(err, files) {
+  Fs.readdir(filePath, function(err, files) {
     if (err) {
       console.log(err);
       return;
@@ -67,7 +64,9 @@ function go(_config) {
         imagesName.push(filename);
     });
   });
-  processDir1(_config.path).then(function(imagesData) {
+
+  console.log('***** running *****');
+  processDir(_config.path).then(function(imagesData) {
 
     var imgValues = [];
     for (let imgy = 0; imgy < _config.row; imgy++) {
@@ -82,28 +81,24 @@ function go(_config) {
       }
     }
 
-    var newImage = images(_config.col * _config.width, _config.row * _config.height);
+    var newImage = Images(_config.col * _config.width, _config.row * _config.height);
 
     var i = 0;
     var ss = setInterval(function() {
       var uri = imagesData.dir + imagesName[i];
       console.log(uri);
-      if (!imgValues[i]) { //结束
+      if (!imgValues[i] || i === imagesName.length - 1) { //结束
         clearInterval(ss);
         newImage.save(imagesData.dir + _config.result, {
           quality: 50
         });
+        console.log('');
+        console.log('***** complete *****');
         console.log(imagesData.dir + _config.result);
+        console.log('');
         return;
       }
-      newImage.draw(images(uri), imgValues[i].imgValueX, imgValues[i].imgValueY);
-      if (i == imagesName.length - 1) { //结束
-        clearInterval(ss);
-        newImage.save(imagesData.dir + _config.result, {
-          quality: 50
-        });
-        console.log(imagesData.dir + _config.result);
-      }
+      newImage.draw(Images(uri), imgValues[i].imgValueX, imgValues[i].imgValueY);
       i++;
     }, 100);
 
