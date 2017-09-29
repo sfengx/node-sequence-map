@@ -82,5 +82,5 @@ function main(config) {
     console.log(uri);
     result.draw(Images(uri), map[i].x, map[i].y);
     i++;
-  }, 100);
+  });
 }

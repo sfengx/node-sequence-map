@@ -5,12 +5,4 @@
   "col": 8,
   "result": "result.png",
   "path": "./example/fly"
-},
-{
-  "width": 750,
-  "height": 1206,
-  "row": 4,
-  "col": 8,
-  "result": "result.png",
-  "path": "./example/fly2"
 }]
