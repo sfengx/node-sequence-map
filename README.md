@@ -9,6 +9,7 @@
 ### 使用
 
 1、配置./src/config.json
+
 2、运行
 
     npm run build
