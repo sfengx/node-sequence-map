@@ -8,7 +8,7 @@
 
 ### 使用
 
-1、配置./src/config.json
+1、配置 config.json
 
 2、运行
 

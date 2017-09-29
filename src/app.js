@@ -5,10 +5,9 @@ const _ = require('lodash');
 const Fs = require('fs');
 const Path = require('path');
 const Images = require('../package/images');
-// const Utils = require('./utils');
 
 // 导入配置
-var configs = require('./config.json');
+var configs = require('../config.json');
 
 // 兼容json
 if (!_.isArray(configs) && 　_.isObject(configs)) {
@@ -33,7 +32,7 @@ function main(config) {
   // 读取文件目录并筛选文件
   Fs.readdirSync(config.path).map(function(file) {
 
-    if (file.match(/png|jpg/) && file != config.result) { // 验证类型
+    if (file.match(/.png|.jp(e)g/) && file != config.result) { // 验证类型
       imageList.push(file);
     }
 
