@@ -24,6 +24,8 @@ for (var i = 0; i < configs.length; i++) {
  */
 function main(config) {
   config.path = Path.normalize(Path.resolve(config.path) + '/');
+  config.quality = config.quality || 50;
+  config.toWidth = config.toWidth || config.width;
 
   let imageList = []; // 读取文件存储数组
   let map = []; // 图片坐标图
@@ -39,27 +41,34 @@ function main(config) {
   });
 
   // 生成坐标
+  let width = config.toWidth;
+  let height = config.height * width / config.width;
   let imgy;
   let imgx;
   let x;
   let y;
+
   for (imgy = 0; imgy < config.row; imgy++) {
-    y = imgy * config.height
+    y = imgy * height;
     for (imgx = 0; imgx < config.col; imgx++) {
-      x = imgx * config.width
+      x = imgx * width;
       map.push({
         x: x,
         y: y,
-      })
+      });
     }
   }
 
   // 初始化画板
-  result = Images(config.col * config.width, config.row * config.height);
+  result = Images(config.col * width, config.row * height);
 
   console.log('');
   console.log('***** config *****');
   console.log(config);
+  console.log('');
+  console.log('***** cooking *****');
+  console.log('width: ' + config.width + 'px', 'height: ' + config.height + 'px');
+  console.log('width: ' + width + 'px', 'height: ' + height + 'px');
   console.log('');
   console.log('***** running *****');
 
@@ -71,7 +80,7 @@ function main(config) {
     if (!map[i] || i === imageList.length - 1) { //结束
       clearInterval(ss);
       result.save(config.path + config.result, {
-        quality: 50
+        quality: config.quality
       });
       console.log('');
       console.log('***** complete *****');
@@ -80,7 +89,7 @@ function main(config) {
       return;
     }
     console.log(uri);
-    result.draw(Images(uri), map[i].x, map[i].y);
+    result.draw(Images(uri).size(width), map[i].x, map[i].y);
     i++;
   });
 }

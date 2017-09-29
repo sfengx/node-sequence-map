@@ -4,5 +4,7 @@
   "row": 4,
   "col": 8,
   "result": "result.png",
-  "path": "./example/fly"
+  "path": "./example/fly",
+  "toWidth": 100,
+  "quality": 30
 }]
